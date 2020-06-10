@@ -109,11 +109,7 @@ Sz[J_]:=DiagonalMatrix[Range[-J,J,1]];
 S0[J_]:=IdentityMatrix[2*J+1];
 
 (*-----Vector space-----*)
-ReduceSpace[vs_]:=Module[{v=vs,d,nv},
-   d=Dimensions[v][[2]];
-   nv=Simplify@NullSpace[v];
-   If[nv=={},IdentityMatrix[d],Simplify@NullSpace[nv]]
-];
+ReduceSpace[vs_]:=Module[{rv,r},rv=RowReduce[vs];rv[[1;;MatrixRank[rv],;;]]];
 KrylovSpace[H_,vs_]:=Module[{r,nr,h=H,v=vs},
    r=MatrixRank[v];
    v=ReduceSpace@Join[v,(h.#&)/@v];
