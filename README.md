@@ -54,4 +54,4 @@ a = rand[2,3,4];
 b = rand[5,4,3,7];
 c = einsum[{a,b},{{2,6},{3,5}},{4,1,7}]
 ```
-will return a 5×2×7 tensor.
+will return a ```5×2×7``` tensor.
