@@ -2,30 +2,40 @@
 
 BeginPackage["NDArray`"];
 
-eye
-zeros
-ones
-fill
-rand
-linspace
-sum
-prod
+eye::usage="eye[n]"
+zeros::usage="zeros[n1,n2,...]"
+ones::usage="ones[n1,n2,...]"
+fill::usage="fill[c,n1,n2,...]"
+rand::usage="rand[n1,n2,...]"
+linspace::usage="linspace[start,stop,step]"
 
-argmax
-argmin
-argsort
-argwhere
+argmax::usage="argmax[array]"
+argmin::usage="argmin[array]"
+argsort::usage="argsort[array]"
+argwhere::usage="argwhere[array,element]"
 
-shape
-reshape
-moveaxis
+shape::usage="shape[array]"
+sum::usage"sum[array]"
+prod::usage"prod[array]"
+reshape::usage="reshape[array,n1,n2,...]"
+moveaxis::usage="moveaxis[array,{source},{destination}]"
 
-atleast1d
-atleast2d
-vstack
-hstack
+atleast1d::usage="atleast1d[array]"
+atleast2d::usage="atleast2d[array]"
+vstack::usage="vstack[{array1,array2,...}]"
+hstack::usage="hstack[{array1,array2,...}]"
 
-einsum
+einsum::usage="einsum[{array1,array2,...},{{i1,j2},{i2,j2},...},{k1,k2,...}]"
+
+Sp::usage="Sp[J]"
+Sm::usage="Sm[J]"
+Sx::usage="Sx[J]"
+Sy::usage="Sy[J]"
+Sz::usage="Sz[J]"
+S0::usage="S0[J]"
+
+ReduceSpace::usage="ReduceSpace[vectorspace]"
+KrylovSpace::usage="KrylovSpace[operator,vectorspace]"
 
 Begin["`Private`"];
 
@@ -36,11 +46,6 @@ ones[shape__]:=ConstantArray[1,{shape}];
 fill[c_,shape__]:=ConstantArray[c,{shape}];
 rand[shape__]:=Array[RandomReal[]&,{shape}];
 linspace[start_,stop_,num_]:=Range[start,stop,(stop-start)/(num-1)]
-sum[array_]:=Total[Flatten[array]];
-prod[array_]:=Module[{flat},
-flat=Flatten[array];
-If[Length[array]==1,flat[[1]],Fold[Times,flat[[1]],flat[[2;;]]]]
-];
 
 (*-----Sorting and searching-----*)
 argmax[array_]:=Position[array,Max[array]];
@@ -51,6 +56,11 @@ argwhere[array_,ele_]:=Position[array,#]&/@ele;
 (*-----Manipulation-----*)
 (*Basic operations*)
 shape[array_]:=Dimensions[array];
+sum[array_]:=Total[Flatten[array]];
+prod[array_]:=Module[{flat},
+flat=Flatten[array];
+If[Length[array]==1,flat[[1]],Fold[Times,flat[[1]],flat[[2;;]]]]
+];
 (*Changing array shape*)
 reshape[array_,shape__]:=Module[{pos,newshape={shape}},
 pos=Position[newshape,-1];
@@ -90,6 +100,28 @@ shape=Times@@Take[dim,#]&/@MapThread[{#1+1,#2}&,Through@{Most,Rest}@Prepend[Accu
 ArrayReshape[If[ArrayDepth[ten]==0,{ten},ten],shape]
 ];
 
+(*-----Spin operators-----*)
+Sp[J_]:=Table[KroneckerDelta[n,m+1]*Sqrt[(J-m)(J+m+1)],{n,-J,J,1},{m,-J,J,1}];
+Sm[J_]:=Table[KroneckerDelta[n,m-1]*Sqrt[(J+m)(J-m+1)],{n,-J,J,1},{m,-J,J,1}];
+Sx[J_]:=(Sp+Sm)/2;
+Sy[J_]:=(Sp-Sm)/(2*I);
+Sz[J_]:=DiagonalMatrix[Range[-J,J,1]];
+S0[J_]:=IdentityMatrix[2*J+1];
+
+(*-----Vector space-----*)
+ReduceSpace[vs_]:=Module[{v=vs,d,nv},
+   d=Dimensions[v][[2]];
+   nv=Simplify@NullSpace[v];
+   If[nv=={},IdentityMatrix[d],Simplify@NullSpace[nv]]
+];
+KrylovSpace[H_,vs_]:=Module[{r,nr,h=H,v=vs},
+   r=MatrixRank[v];
+   v=ReduceSpace@Join[v,(h.#&)/@v];
+   nr=Length[v];
+   While[nr>r,r=nr;v=ReduceSpace@Join[v,(h.#&)/@v]; 
+   nr=Length[v]];
+   v
+];
 End[];
 
 EndPackage[];
