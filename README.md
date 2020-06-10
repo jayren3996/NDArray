@@ -8,7 +8,8 @@ Needs["NDArray`"];
 ```
 to use the functions.
 
-Most functions have the same name and input as numpy:
+Most functions have the same name and input as numpy. The current functions include:
+- Array creation
 ```mathematica
 eye[n]
 zeros[n1,n2,...]
@@ -17,12 +18,16 @@ fill[c,n1,n2,...]
 rand[n1,n2,...]
 linspace[start,stop,step]
 kron[m1,m2,...]
-
+```
+- Sorting and searching
+```mathematica
 argmax[array]
 argmin[array]
 argsort[array]
 argwhere[array,element]
-
+```
+- Manipulation
+```mathematica
 shape[array]
 shape[array,n]
 dims[array]
@@ -35,16 +40,22 @@ atleast1d[array]
 atleast2d[array]
 vstack[array1,array2,...]
 hstack[array1,array2,...]
-
+```
+- Tensor contraction
+```mathematica
 einsum[{array1,array2,...},{{i1,j2},{i2,j2},...},{k1,k2,...}]
-
+```
+- Spin operators
+```
 Sp[J]
 Sm[J]
 Sx[J]
 Sy[J]
 Sz[J]
 S0[J]
-
+```
+- Vector space
+```
 ReduceSpace[vectorspace]
 KrylovSpace[operator,vectorspace]
 ```
