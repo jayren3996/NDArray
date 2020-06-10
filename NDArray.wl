@@ -36,7 +36,7 @@ ones[shape__]:=ConstantArray[1,{shape}];
 fill[c_,shape__]:=ConstantArray[c,{shape}];
 rand[shape__]:=Array[RandomReal[]&,{shape}];
 linspace[start_,stop_,num_]:=Range[start,stop,(stop-start)/(num-1)]
-sum[array_]:=Total[array];
+sum[array_]:=Total[Flatten[array]];
 prod[array_]:=Module[{flat},
 flat=Flatten[array];
 If[Length[array]==1,flat[[1]],Fold[Times,flat[[1]],flat[[2;;]]]]
