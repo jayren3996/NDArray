@@ -46,7 +46,7 @@ hstack[array1,array2,...]
 einsum[{array1,array2,...},{{i1,j2},{i2,j2},...},{k1,k2,...}]
 ```
 - Spin operators
-```
+```mathematica
 Sp[J]
 Sm[J]
 Sx[J]
@@ -55,7 +55,7 @@ Sz[J]
 S0[J]
 ```
 - Vector space
-```
+```mathematica
 ReduceSpace[vectorspace]
 KrylovSpace[operator,vectorspace]
 ```
