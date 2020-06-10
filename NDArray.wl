@@ -103,8 +103,8 @@ ArrayReshape[If[ArrayDepth[ten]==0,{ten},ten],shape]
 (*-----Spin operators-----*)
 Sp[J_]:=Table[KroneckerDelta[n,m+1]*Sqrt[(J-m)(J+m+1)],{n,-J,J,1},{m,-J,J,1}];
 Sm[J_]:=Table[KroneckerDelta[n,m-1]*Sqrt[(J+m)(J-m+1)],{n,-J,J,1},{m,-J,J,1}];
-Sx[J_]:=(Sp+Sm)/2;
-Sy[J_]:=(Sp-Sm)/(2*I);
+Sx[J_]:=(Sp[J]+Sm[J])/2;
+Sy[J_]:=(Sp[J]-Sm[J])/(2*I);
 Sz[J_]:=DiagonalMatrix[Range[-J,J,1]];
 S0[J_]:=IdentityMatrix[2*J+1];
 
@@ -122,6 +122,7 @@ KrylovSpace[H_,vs_]:=Module[{r,nr,h=H,v=vs},
    nr=Length[v]];
    v
 ];
+
 End[];
 
 EndPackage[];
