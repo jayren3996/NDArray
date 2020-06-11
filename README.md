@@ -45,6 +45,13 @@ hstack[array1,array2,...]
 ```mathematica
 einsum[{array1,array2,...},{{i1,j2},{i2,j2},...},{k1,k2,...}]
 ```
+The tensor contraction ```einsum``` is a little different. For example, the following code
+```mathematica
+a = rand[2,3,4];
+b = rand[5,4,3,7];
+c = einsum[{a,b},{{2,6},{3,5}},{4,1,7}]
+```
+will return a ```5×2×7``` tensor.
 - Spin operators
 ```mathematica
 Sp[J]
@@ -59,10 +66,3 @@ S0[J]
 ReduceSpace[vectorspace]
 KrylovSpace[operator,vectorspace]
 ```
-The tensor contraction ```einsum``` is a little different. For example, the following code
-```mathematica
-a = rand[2,3,4];
-b = rand[5,4,3,7];
-c = einsum[{a,b},{{2,6},{3,5}},{4,1,7}]
-```
-will return a ```5×2×7``` tensor.
