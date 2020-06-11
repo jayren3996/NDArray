@@ -1,12 +1,15 @@
 # NDArray
-Mathematical package for multi-dimensional array.
+A Mathematical package for some useful functions on multi-dimensional array.
+
+The function names are mostly borrowed from ```Numpy``` library, and the usage is mostly the same.
+
 ## Installation
 - Download ZIP file.
 - Unzip ```NDArray-master``` in a folder.
 - Run ```install.m``` file.
 
 ## Basic functions
-Most functions have the same name and input as numpy. The current functions include:
+Most functions have the same name and input as numpy. The current functions are listed bellow:
 ### Array creation
 ```mathematica
 eye[n]
