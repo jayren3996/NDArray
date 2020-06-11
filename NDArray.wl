@@ -49,13 +49,28 @@ ones[shape__]:=ConstantArray[1,{shape}];
 fill[c_,shape__]:=ConstantArray[c,{shape}];
 rand[shape__]:=Array[RandomReal[]&,{shape}];
 linspace[start_,stop_,num_]:=Range[start,stop,(stop-start)/(num-1)];
-kron[mats__]:=KroneckerProduct[mats__];
+kron[mats__]:=KroneckerProduct[mats];
 
 (*-----Sorting and searching-----*)
-argmax[array_]:=Position[array,Max[array]];
-argmin[array_]:=Position[array,Min[array]];
+argmax[array_]:=Module[{pos},
+   pos=FirstPosition[array,Max[array]];
+   If[ArrayDepth[array]==1,pos[[1]],pos]
+];
+argmin[array_]:=Module[{pos},
+   pos=FirstPosition[array,Min[array]];
+   If[ArrayDepth[array]==1,pos[[1]],pos]
+];
 argsort[array_]:=Position[array,#]&/@Sort[DeleteDuplicates[array]]//Flatten;
-argwhere[array_,ele_]:=Position[array,#]&/@ele;
+argwhere[array_,ele_]:=Module[{d,de,pos,trim},
+   d=ArrayDepth[array];
+   de=ArrayDepth[ele];
+   pos=If[de==0,Position[array,ele],Position[array,#]&/@ele];
+   If[d==1,
+      trim=Transpose[#][[1]]&;
+      If[de==0,pos=trim[pos],pos=trim/@pos],
+      pos
+   ]
+];
 
 (*-----Manipulation-----*)
 (*Basic operations*)
