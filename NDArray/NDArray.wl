@@ -121,8 +121,8 @@ einsum[Ts_,s_:{},ex:{_List..}]:=Module[{ten,dim,shape},
 ];
 
 (*-----Spin operators-----*)
-Sp[J_]:=Table[KroneckerDelta[n,m+1]*Sqrt[(J-m)(J+m+1)],{n,-J,J,1},{m,-J,J,1}];
-Sm[J_]:=Table[KroneckerDelta[n,m-1]*Sqrt[(J+m)(J-m+1)],{n,-J,J,1},{m,-J,J,1}];
+Sp[J_]:=Table[KroneckerDelta[n,m+1]*Sqrt[(J-m)(J+m+1)],{n,J,-J,-1},{m,J,-J,-1}];
+Sm[J_]:=Table[KroneckerDelta[n,m-1]*Sqrt[(J+m)(J-m+1)],{n,J,-J,-1},{m,J,-J,-1}];
 Sx[J_]:=(Sp[J]+Sm[J])/2;
 Sy[J_]:=(Sp[J]-Sm[J])/(2*I);
 Sz[J_]:=DiagonalMatrix[Range[J,-J,-1]];
