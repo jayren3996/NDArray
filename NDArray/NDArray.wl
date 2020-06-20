@@ -17,7 +17,7 @@ argwhere::usage="argwhere[array,element]"
 
 shape::usage="shape[array]"
 shape::usage="shape[array,n]"
-dims::usage="dims[array]"
+ndims::usage="ndims[array]"
 sum::usage"sum[array]"
 prod::usage"prod[array]"
 reshape::usage="reshape[array,n1,n2,...]"
@@ -76,7 +76,7 @@ argwhere[array_,ele_]:=Module[{d,de,pos,trim},
 (*Basic operations*)
 shape[array_]:=Dimensions[array];
 shape[array_,n_]:=Dimensions[array,n];
-dims[array_]:=ArrayDepth[array];
+ndims[array_]:=ArrayDepth[array];
 sum[array_]:=Total[Flatten[array]];
 prod[array_]:=Module[{flat},
    flat=Flatten[array];
