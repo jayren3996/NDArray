@@ -14,6 +14,7 @@ argmax::usage="argmax[array]"
 argmin::usage="argmin[array]"
 argsort::usage="argsort[array]"
 argwhere::usage="argwhere[array,element]"
+where::usage="where[array,cond]"
 
 shape::usage="shape[array]"
 shape::usage="shape[array,n]"
@@ -71,6 +72,7 @@ argwhere[array_,ele_]:=Module[{d,de,pos,trim},
       pos
    ]
 ];
+where[array_,cond_]:=Flatten@Position[cond/@array,True];
 
 (*-----Manipulation-----*)
 (*Basic operations*)
