@@ -61,9 +61,20 @@ Sx[J]
 Sy[J]
 Sz[J]
 S0[J]
+Sx[J,i,n]
+Sy[J,i,n]
+Sz[J,i,n]
 ```
 ### Vector space
 ```mathematica
 ReduceSpace[vectorspace]
 KrylovSpace[operator,vectorspace]
 ```
+
+### Data IO
+
+```mathematica
+savetxt[dir,vector]
+loadtxt[dir]
+```
+

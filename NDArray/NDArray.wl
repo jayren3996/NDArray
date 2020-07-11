@@ -34,12 +34,18 @@ einsum::usage="einsum[{array1,array2,...},{{i1,j2},{i2,j2},...},{k1,k2,...}]"
 Sp::usage="Sp[J]"
 Sm::usage="Sm[J]"
 Sx::usage="Sx[J]"
+Sx::usage="Sx[J,i,n]"
 Sy::usage="Sy[J]"
+Sy::usage="Sy[J,i,n]"
 Sz::usage="Sz[J]"
+Sz::usage="Sz[J,i,n]"
 S0::usage="S0[J]"
 
 ReduceSpace::usage="ReduceSpace[vectorspace]"
 KrylovSpace::usage="KrylovSpace[operator,vectorspace]"
+
+savetxt::usage="savetxt[dir,vector]"
+loadtxt::usage="loadtxt[dir]"
 
 Begin["`Private`"];
 
@@ -157,6 +163,20 @@ KrylovSpace[H_,vs_]:=Module[{r,nr,h=H,v=vs},
    While[nr>r,r=nr;v=ReduceSpace@Join[v,(h.#&)/@v]; 
    nr=Length[v]];
    v
+];
+
+(*-----Data IO-----*)
+savetxt[dir_,vec_]:=Module[{f,n},
+   f=OpenWrite[dir,FormatType->OutputForm];
+   n=Length[a];
+   Do[Write[f,vec[[i]]],{i,1,n}];
+   Close[f];
+];
+loadtxt[dir_]:=Module[{f,data},
+   f=OpenRead[dir];
+   data=ReadList[f];
+   Close[f];
+   data
 ];
 
 End[];
