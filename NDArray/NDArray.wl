@@ -129,6 +129,24 @@ Sx[J_]:=(Sp[J]+Sm[J])/2;
 Sy[J_]:=(Sp[J]-Sm[J])/(2*I);
 Sz[J_]:=DiagonalMatrix[Range[J,-J,-1]];
 S0[J_]:=IdentityMatrix[2*J+1];
+Sx[J_,i_,n_]:=Module[{lmat,rmat,s},
+   s=2*J+1;
+   lmat=eye[s^(i-1)];
+   rmat=eye[s^(n-i)];
+   kron[lmat,Sx[J],rmat]
+];
+Sy[J_,i_,n_]:=Module[{lmat,rmat,s},
+   s=2*J+1;
+   lmat=eye[s^(i-1)];
+   rmat=eye[s^(n-i)];
+   kron[lmat,Sy[J],rmat]
+];
+Sz[J_,i_,n_]:=Module[{lmat,rmat,s},
+   s=2*J+1;
+   lmat=eye[s^(i-1)];
+   rmat=eye[s^(n-i)];
+   kron[lmat,Sz[J],rmat]
+];
 
 (*-----Vector space-----*)
 ReduceSpace[vs_]:=Module[{rv},rv=RowReduce[vs];rv[[1;;MatrixRank[rv],;;]]];
