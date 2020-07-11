@@ -168,7 +168,7 @@ KrylovSpace[H_,vs_]:=Module[{r,nr,h=H,v=vs},
 (*-----Data IO-----*)
 savetxt[dir_,vec_]:=Module[{f,n},
    f=OpenWrite[dir,FormatType->OutputForm];
-   n=Length[a];
+   n=Length[vec];
    Do[Write[f,vec[[i]]],{i,1,n}];
    Close[f];
 ];
