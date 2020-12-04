@@ -2,19 +2,17 @@
 
 BeginPackage["NDArray`"];
 (*Public functions*)
-eye::usage="eye[n]"
-zeros::usage="zeros[n1,n2,...]"
-ones::usage="ones[n1,n2,...]"
-fill::usage="fill[c,n1,n2,...]"
-rand::usage="rand[n1,n2,...]"
-linspace::usage="linspace[start,stop,step]"
-kron::usage="kron[m1,m2,...]"
+Eye::usage="Eye[n]"
+Zeros::usage="Zeros[n1,n2,...]"
+Rand::usage="Rand[n1,n2,...]"
+Linspace::usage="Linspace[start,stop,step]"
+Kron::usage="Kron[m1,m2,...]"
 
-argmax::usage="argmax[array]"
-argmin::usage="argmin[array]"
-argsort::usage="argsort[array]"
-argwhere::usage="argwhere[array,element]"
-where::usage="where[array,cond]"
+Argmax::usage="Argmax[array]"
+Argmin::usage="Argmin[array]"
+Argsort::usage="Argsort[array]"
+Argwhere::usage="Argwhere[array,element]"
+Where::usage="Where[array,cond]"
 
 shape::usage="shape[array]"
 shape::usage="shape[array,n]"
@@ -50,35 +48,33 @@ loadtxt::usage="loadtxt[dir]"
 Begin["`Private`"];
 
 (*-----Array creation-----*)
-eye[N_]:=IdentityMatrix[N];
-zeros[shape__]:=ConstantArray[0,{shape}];
-ones[shape__]:=ConstantArray[1,{shape}];
-fill[c_,shape__]:=ConstantArray[c,{shape}];
-rand[shape__]:=Array[RandomReal[]&,{shape}];
-linspace[start_,stop_,num_]:=Range[start,stop,(stop-start)/(num-1)];
-kron[mats__]:=KroneckerProduct[mats];
+Eye[N_]:=IdentityMatrix[N];
+Zeros[shape__]:=ConstantArray[0,{shape}];
+Rand[shape__]:=Array[RandomReal[]&,{shape}];
+Linspace[start_,stop_,num_]:=Range[start,stop,(stop-start)/(num-1)];
+Kron[mats__]:=KroneckerProduct[mats];
 
 (*-----Sorting and searching-----*)
-argmax[array_]:=Module[{pos},
-   pos=FirstPosition[array,Max[array]];
-   If[ArrayDepth[array]==1,pos[[1]],pos]
+Argmax[array_]:=Block[{pos},
+    pos=FirstPosition[array,Max[array]];
+    If[ArrayDepth[array]==1,pos[[1]],pos]
 ];
-argmin[array_]:=Module[{pos},
-   pos=FirstPosition[array,Min[array]];
-   If[ArrayDepth[array]==1,pos[[1]],pos]
+Argmin[array_]:=Block[{pos},
+    pos=FirstPosition[array,Min[array]];
+    If[ArrayDepth[array]==1,pos[[1]],pos]
 ];
-argsort[array_]:=Position[array,#]&/@Sort[DeleteDuplicates[array]]//Flatten;
-argwhere[array_,ele_]:=Module[{d,de,pos,trim},
-   d=ArrayDepth[array];
-   de=ArrayDepth[ele];
-   pos=If[de==0,Position[array,ele],Position[array,#]&/@ele];
-   If[d==1,
-      trim=Transpose[#][[1]]&;
-      If[de==0,pos=trim[pos],pos=trim/@pos],
-      pos
-   ]
+Argsort[array_]:=Position[array,#]&/@Sort[DeleteDuplicates[array]]//Flatten;
+Argwhere[array_,ele_]:=Module[{d,de,pos,trim},
+    d=ArrayDepth[array];
+    de=ArrayDepth[ele];
+    pos=If[de==0,Position[array,ele],Position[array,#]&/@ele];
+    If[d==1,
+        trim=Transpose[#][[1]]&;
+        If[de==0,pos=trim[pos],pos=trim/@pos],
+        pos
+    ]
 ];
-where[array_,cond_]:=Flatten@Position[cond/@array,True];
+Where[array_,cond_]:=Flatten@Position[cond/@array,True];
 
 (*-----Manipulation-----*)
 (*Basic operations*)
